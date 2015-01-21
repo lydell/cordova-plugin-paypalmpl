@@ -1,3 +1,10 @@
+## Updates since fork ##
+- Support preapproval
+
+
+# Old README below #
+---------------------------
+
 ## PayPalMPL Plugin ##
 ---------------------------
 Can support PayPal in cordova/phonegap app? Yes, you can!
