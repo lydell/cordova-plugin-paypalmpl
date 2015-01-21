@@ -151,11 +151,6 @@ mplExport.pay = function(arg, successCallback, failureCallback) {
  *        to be requested.
  */
 mplExport.preapproval = function(arg, successCallback, failureCallback) {
-    arg = {
-        preapprovalKey: "PA-4FS88720H1735654S",
-        currency: 'USD',
-        merchantName: 'Lars test store'
-    };
     cordova.exec(successCallback, failureCallback,
         'PayPalMPL', 'preapproval', [ arg ]);
 };
