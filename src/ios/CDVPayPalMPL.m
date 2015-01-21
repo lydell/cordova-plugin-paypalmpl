@@ -322,7 +322,7 @@
 	"document.dispatchEvent(e);"
 	"})();";
 	
-	[super writeJavascript:[NSString stringWithFormat:jsString, payKey, paymentStatus]];
+    [self.commandDelegate evalJs:[NSString stringWithFormat:jsString, payKey, paymentStatus]];
 	
 	NSLog(@"PayPalMPL.paymentSuccess - payKey:%@", payKey);
     
@@ -341,8 +341,8 @@
 	"e.correlationID = '%@';"
 	"document.dispatchEvent(e);"
 	"})();";
-	
-	[super writeJavascript:[NSString stringWithFormat:jsString, correlationID]];	
+
+    [self.commandDelegate evalJs:[NSString stringWithFormat:jsString, correlationID]];
 
 	NSLog(@"PayPalMPL.paymentFailed - correlationID:%@", correlationID);
 
@@ -370,7 +370,7 @@
 	"document.dispatchEvent(e);"
 	"})();";
 	
-	[super writeJavascript:jsString];
+    [self.commandDelegate evalJs:jsString];
     
     NSLog( @"PayPalMPL.paymentCanceled" );
     
