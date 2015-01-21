@@ -308,6 +308,44 @@
         [self.commandDelegate sendPluginResult:pluginResult callbackId:payCallbackId];	}
 }
 
+- (void) doPreapproval
+{
+    NSLog(@"PayPalMPL.doPreapproval");
+    
+    [[PayPal getPayPalInst] preapprovalWithKey:self.preapprovalKey
+                               andMerchantName:self.merchantName];
+}
+
+- (void)preapproval:(CDVInvokedUrlCommand *)command
+{
+    NSLog(@"PayPalMPL.preapproval - triggered");
+    payCallbackId = command.callbackId;
+    NSArray* arguments = command.arguments;
+    
+    NSDictionary *preapprovalInfo = nil;
+    if ([arguments objectAtIndex:PAYMENT_INFO_ARG_INDEX]) {
+        preapprovalInfo = [NSDictionary dictionaryWithDictionary:[arguments objectAtIndex:0]];
+    }
+    
+    self.preapprovalKey = [preapprovalInfo valueForKey:@"preapprovalKey"];
+    self.merchantName = [preapprovalInfo valueForKey:@"merchantName"];
+    
+    NSLog(@"PayPalMPL.preapproval - args: %@ %@", self.preapprovalKey, self.merchantName);
+
+    PayPal *payPal = [PayPal getPayPalInst];
+    
+    PayPalButtonType nPayPalButton = BUTTON_152x33;
+    
+    self.ppButton = [payPal getPayButtonWithTarget:self
+                                         andAction:@selector(doPreapproval)
+                                     andButtonType:nPayPalButton
+                                     andButtonText:BUTTON_TEXT_PAY];
+    
+    self.ppButton.hidden = YES;
+    [self doPreapproval];
+}
+
+
 #pragma mark -
 #pragma mark Paypal delegates
 
@@ -382,7 +420,7 @@
 
 - (void)paymentLibraryExit
 {
-    
+    NSLog(@"PayPalMPL.paymentLibraryExit");
 }
 
 @end

@@ -36,6 +36,8 @@ typedef enum PaymentStatuses {
 @property (nonatomic, assign) PayPalPaymentType pType;
 @property (nonatomic, assign) PaymentStatus pStatus;
 @property (nonatomic, retain) NSString * payCallbackId;
+@property (nonatomic, retain) NSString *merchantName;
+@property (nonatomic, retain) NSString *preapprovalKey;
 
 - (void) initWithAppID:(CDVInvokedUrlCommand *)command;
 - (void) getStatus:(CDVInvokedUrlCommand *)command;
@@ -43,7 +45,9 @@ typedef enum PaymentStatuses {
 - (void) prepare:(CDVInvokedUrlCommand *)command;
 - (void) setPaymentInfo:(CDVInvokedUrlCommand *)command;
 - (void) pay:(CDVInvokedUrlCommand *)command;
+- (void) preapproval:(CDVInvokedUrlCommand *)command;
 
 - (void) checkout;
+- (void) doPreapproval;
 
 @end
