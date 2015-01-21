@@ -23,29 +23,59 @@
 
     <!-- android -->
     <platform name="android">
-<dependency id="com.paypal.mpl-android" version=">=1.5.5"/>
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="PayPalMPL">
                 <param name="android-package" value="com.rjfun.cordova.plugin.PayPalMPL"/>
             </feature>
         </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity android:configChanges="keyboardHidden|orientation"
+                      android:name="com.paypal.android.MEP.PayPalActivity"
+                      android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+        </config-file>
+
         <source-file src="src/android/PayPalMPL.java" target-dir="src/com/rjfun/cordova/plugin" />
         <source-file src="src/android/PayPalMPLResultDelegate.java" target-dir="src/com/rjfun/cordova/plugin" />
-        
-     </platform>
-     
-     <!-- ios -->
-     <platform name="ios">    
-<dependency id="com.paypal.mpl-ios" version=">=2.0.1"/>
-         <config-file target="config.xml" parent="/*">
-             <feature name="PayPalMPL">
-                 <param name="ios-package" value="CDVPayPalMPL" />
-             </feature>
-         </config-file>
-         
-         <header-file src="src/ios/CDVPayPalMPL.h" />
-         <source-file src="src/ios/CDVPayPalMPL.m" />
 
-	</platform>
-          
+        <!-- deps -->
+        <source-file src="lib/android/PayPal_MPL.jar" target-dir="libs" />
+    </platform>
+
+    <!-- ios -->
+    <platform name="ios">
+        <!--<dependency id="com.paypal.mpl-ios" version=">=2.0.1"/>-->
+        <config-file target="config.xml" parent="/*">
+            <feature name="PayPalMPL">
+                <param name="ios-package" value="CDVPayPalMPL" />
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/CDVPayPalMPL.h" />
+        <source-file src="src/ios/CDVPayPalMPL.m" />
+
+        <!-- deps -->
+        <header-file src="lib/ios/PayPal.h" />
+        <header-file src="lib/ios/PayPalAddress.h" />
+        <header-file src="lib/ios/PayPalAdvancedPayment.h" />
+        <header-file src="lib/ios/PayPalAmounts.h" />
+        <header-file src="lib/ios/PayPalInvoiceData.h" />
+        <header-file src="lib/ios/PayPalInvoiceItem.h" />
+        <header-file src="lib/ios/PayPalPayment.h" />
+        <header-file src="lib/ios/PayPalPreapprovalDetails.h" />
+        <header-file src="lib/ios/PayPalReceiverAmounts.h" />
+        <header-file src="lib/ios/PayPalReceiverPaymentDetails.h" />
+        <source-file src="lib/ios/libPayPalMPL.a" framework="true" />
+
+        <framework src="Security.framework" />
+        <framework src="libxml2.dylib" />
+        <framework src="libz.1.2.5.dylib" />
+    </platform>
+
 </plugin>
