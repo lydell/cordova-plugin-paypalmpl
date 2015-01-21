@@ -136,4 +136,28 @@ mplExport.pay = function(arg, successCallback, failureCallback) {
 			'PayPalMPL', 'pay', [ arg ]);
 };
 
+/**
+ * preapproval.
+ *
+ * @param arg {!Object} The arguments needed for preapproval
+ *  {
+ *      'preapprovalKey': 'PA-XXX',
+ *      'currency': 'GBP',
+ *      'merchantName': 'Lars'
+ *  }
+ * @param {function()} successCallback The function to call if an ad was
+ *        requested successfully.
+ * @param {function()} failureCallback The function to call if an ad failed
+ *        to be requested.
+ */
+mplExport.preapproval = function(arg, successCallback, failureCallback) {
+    arg = {
+        preapprovalKey: "PA-4FS88720H1735654S",
+        currency: 'USD',
+        merchantName: 'Lars test store'
+    };
+    cordova.exec(successCallback, failureCallback,
+        'PayPalMPL', 'preapproval', [ arg ]);
+};
+
 module.exports = mplExport;
