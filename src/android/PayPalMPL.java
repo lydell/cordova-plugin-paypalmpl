@@ -24,6 +24,7 @@ import com.paypal.android.MEP.PayPalActivity;
 import com.paypal.android.MEP.PayPalInvoiceData;
 import com.paypal.android.MEP.PayPalInvoiceItem;
 import com.paypal.android.MEP.PayPalPayment;
+import com.paypal.android.MEP.PayPalPreapproval;
 
 import android.app.Activity;
 import android.content.Context;
@@ -54,7 +55,8 @@ public class PayPalMPL extends CordovaPlugin implements OnClickListener {
 	private static final String ACTION_GET_STATUS = "getStatus";
 	private static final String ACTION_SET_PAYMENT_INFO = "setPaymentInfo";
 	private static final String ACTION_PAY = "pay";
-	
+	private static final String ACTION_PREAPPROVAL = "preapproval";
+
 	private static final int REQUEST_PAYPAL_CHECKOUT = 2;
 	private static final int PAYPAL_BUTTON_ID = 10001;
 	
@@ -92,7 +94,14 @@ public class PayPalMPL extends CordovaPlugin implements OnClickListener {
 	        });
 			return true;
 			
-		}
+		} else if (ACTION_PREAPPROVAL.equals(action)) {
+            cordova.getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    executePreapproval(inputs, callbackContext);
+                }
+            });
+            return true;
+        }
 
 		return false;
 	}
@@ -237,6 +246,47 @@ public class PayPalMPL extends CordovaPlugin implements OnClickListener {
 		
 		return true;
 	}
+
+    private boolean executePreapproval(JSONArray inputs, CallbackContext callbackContext) {
+        Log.d(LOGTAG, "executing Preapproval");
+        String preapprovalKey, merchantName, currency;
+
+        try {
+            JSONObject args = inputs.getJSONObject(0);
+            preapprovalKey = args.getString("preapprovalKey");
+            merchantName = args.optString("merchantName");
+            currency = args.optString("currency");
+        } catch (JSONException e) {
+            Log.d(LOGTAG, "Got JSON Exception " + e.getMessage());
+            callbackContext.sendPluginResult(new PluginResult(Status.JSON_EXCEPTION));
+            return true;
+        }
+
+        this.payCallback = callbackContext;
+
+        PayPalPreapproval preapproval = new PayPalPreapproval();
+
+        if (!currency.isEmpty()) {
+            preapproval.setCurrencyType(currency);
+        }
+        if (!merchantName.isEmpty()) {
+            preapproval.setMerchantName(merchantName);
+        }
+
+        PayPal payPal = PayPal.getInstance();
+
+        payPal.setPreapprovalKey(preapprovalKey);
+
+        Intent preapprovalIntent = payPal.preapprove(
+                preapproval,
+                cordova.getActivity().getApplicationContext(),
+                new PayPalMPLResultDelegate());
+
+        cordova.getActivity().startActivityForResult(preapprovalIntent,
+                REQUEST_PAYPAL_CHECKOUT);
+
+        return true;
+    }
 
 	@Override
 	public void onClick(View v) {

@@ -19,7 +19,8 @@ public class PayPalMPLResultDelegate implements PayPalResultDelegate,
 	 * @param paymentStatus		the status of the transaction
 	 */
 	public void onPaymentSucceeded(String payKey, String paymentStatus) {
-		PayPalMPL.thisPlugin.onPaymentSucceeded(payKey, paymentStatus);;		
+        Log.d(LOGTAG, String.format("onPaymentSucceeded %s %s", payKey, paymentStatus));
+		PayPalMPL.thisPlugin.onPaymentSucceeded(payKey, paymentStatus);
 	}
 
 	/**
@@ -33,6 +34,7 @@ public class PayPalMPLResultDelegate implements PayPalResultDelegate,
 	 */
 	public void onPaymentFailed(String paymentStatus, String correlationID,
 			String payKey, String errorID, String errorMessage) {
+        Log.d(LOGTAG, String.format("onPaymentFailed %s %s %s %s %s", paymentStatus, correlationID, payKey, errorID, errorMessage));
 		PayPalMPL.thisPlugin.onPaymentFailed(paymentStatus, correlationID, payKey, errorID, errorMessage);
 	}
 
@@ -42,6 +44,7 @@ public class PayPalMPLResultDelegate implements PayPalResultDelegate,
 	 * @param paymentStatus		the status of the transaction
 	 */
 	public void onPaymentCanceled(String paymentStatus) {
+        Log.d(LOGTAG, String.format("onPaymentCanceled %s", paymentStatus));
 		PayPalMPL.thisPlugin.onPaymentCanceled(paymentStatus);
 	}
 }
