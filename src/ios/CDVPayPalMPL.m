@@ -149,7 +149,7 @@
 	[super.webView addSubview:self.ppButton];
 	self.ppButton.hidden = YES;
 
-	NSLog(@"PayPalMPL.prepare - set paymentType: %ld", paymentType);
+	NSLog(@"PayPalMPL.prepare - set paymentType: %ld", (long)paymentType);
     
     PayPal* pp = [PayPal getPayPalInst];
     pp.lang = strLang;
