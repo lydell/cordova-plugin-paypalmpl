@@ -57,7 +57,7 @@
     NSString* appId = [args valueForKey:@"appId"];
     if(! appId) appId = PAYPAL_APP_ID;
     
-    NSInteger nEnv = ENV_NONE;
+    PayPalEnvironment nEnv = ENV_NONE;
     NSString* appEnv = [args valueForKey:@"appEnv"];
     if( appEnv ) {
         if([appEnv isEqualToString:@"ENV_LIVE"]) {
@@ -149,7 +149,7 @@
 	[super.webView addSubview:self.ppButton];
 	self.ppButton.hidden = YES;
 
-	NSLog(@"PayPalMPL.prepare - set paymentType: %d", paymentType);
+	NSLog(@"PayPalMPL.prepare - set paymentType: %ld", paymentType);
     
     PayPal* pp = [PayPal getPayPalInst];
     pp.lang = strLang;
@@ -202,7 +202,7 @@
     }
     
     BOOL bHideButton = NO;
-    NSInteger nPayPalButton = [[payinfo valueForKey:@"showPayPalButton"] integerValue];
+    PayPalButtonType nPayPalButton = (PayPalButtonType)[[payinfo valueForKey:@"showPayPalButton"] integerValue];
     if( nPayPalButton < BUTTON_152x33 || nPayPalButton >= BUTTON_TYPE_COUNT ) {
         nPayPalButton = BUTTON_152x33;
         bHideButton = YES;
